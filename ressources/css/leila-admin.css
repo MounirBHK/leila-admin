@@ -1,0 +1,99 @@
+body {
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto Slab", sans-serif;
+}
+body h1, body h2, body h3, body h4, body h5, body h6 {
+  font-family: "Roboto", serif;
+  margin: 0;
+  padding: 0;
+}
+body header {
+  margin: 0;
+}
+body header h2 {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+body header nav {
+  background-color: #aaa;
+}
+body header nav ul {
+  margin: 0;
+  padding: 0;
+}
+body header nav ul li {
+  list-style: none;
+  display: inline-block;
+  margin: 0.75rem 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: white;
+  border: 2px solid #333;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+body header nav ul li:first-of-type {
+  margin-left: 1rem;
+}
+body header nav ul li.actif {
+  background-color: #005c4a;
+}
+body table {
+  border-collapse: collapse;
+  margin: 2rem auto;
+  min-width: 80vw;
+  font-family: "Roboto";
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+body table caption {
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 1.5rem;
+}
+body table thead tr {
+  background-color: #005c4a;
+  color: white;
+  text-align: left;
+}
+body table tbody tr {
+  border-bottom: thin solid #aaa;
+}
+body table tbody tr:nth-of-type(even) {
+  background-color: #eee;
+}
+body table tbody tr:last-of-type {
+  border-bottom: 5px solid #005c4a;
+}
+body table th, body table td {
+  padding: 0.75rem 1rem;
+}
+body table th:first-of-type, body table td:first-of-type {
+  width: 2rem;
+}
+body table th.action, body table td.action {
+  width: 11rem;
+}
+body table th input, body table td input {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: inherit;
+  border: none;
+}
+body .btn-modifier,
+body .btn-supprimer {
+  border: thin solid #aaa;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+body .btn-modifier {
+  background-color: #090;
+}
+body .btn-supprimer {
+  background-color: #900;
+}

@@ -1,0 +1,128 @@
+$mono-sombre: #333;
+$mono-claire: #aaa;
+$mono-tres-claire: #eee;
+$mono-blanc: white;
+$bouton-ok: #090;
+$bouton-danger: #900;
+$table-accent: #005c4a;
+
+body {
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto Slab', sans-serif;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    margin: 0;
+    
+    h2{
+      background-color: $mono-sombre;
+      color: $mono-blanc;
+      padding: 1rem;
+    }
+    
+    nav {
+      background-color: $mono-claire;
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          list-style: none;
+          display: inline-block;
+          margin: 0.75rem 0.5rem;
+          padding: 0.5rem 1rem;
+          background-color: $mono-sombre;
+          color: $mono-blanc;
+          border: 2px solid $mono-sombre;
+          border-radius: 0.5rem;
+          cursor: pointer;
+
+          &:first-of-type {
+            margin-left: 1rem;
+          }
+
+          &.actif {
+            background-color: $table-accent;
+          }
+        }
+      }
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 2rem auto;
+    min-width: 80vw;
+    font-family: 'Roboto';
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    
+    caption {
+      margin-bottom: 1rem;
+      text-align: left;
+      font-size: 1.5rem;
+    }
+    
+    thead tr {
+      background-color: $table-accent;
+      color: $mono-blanc;
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: thin solid $mono-claire;
+
+      &:nth-of-type(even) {
+        background-color: $mono-tres-claire;
+      }
+
+      &:last-of-type {
+        border-bottom: 5px solid $table-accent;
+      }
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+
+      &:first-of-type  {
+        width: 2rem;
+      }
+
+      &.action  {
+        width: 11rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        background-color: inherit;
+        border: none;
+      }
+    }
+  }
+
+  .btn-modifier, 
+  .btn-supprimer {
+    border: thin solid $mono-claire;
+    margin-left: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: $mono-blanc;
+    cursor: pointer;
+  }
+
+  .btn-modifier {
+    background-color: $bouton-ok;
+  }
+
+  .btn-supprimer {
+    background-color: $bouton-danger;
+  }
+}
