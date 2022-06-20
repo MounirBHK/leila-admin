@@ -6,6 +6,10 @@ $bouton-ok: #090;
 $bouton-danger: #900;
 $table-accent: #005c4a;
 
+html {
+  // font-size: clamp;
+}
+
 body {
   box-sizing: content-box;
   margin: 0;
@@ -60,7 +64,8 @@ body {
   table {
     border-collapse: collapse;
     margin: 2rem auto;
-    min-width: 80vw;
+    min-width: 70vw;
+    max-width: 90vw;
     font-family: 'Roboto';
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     
