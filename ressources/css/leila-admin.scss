@@ -4,6 +4,7 @@ $mono-tres-claire: #eee;
 $mono-blanc: white;
 $bouton-ok: #090;
 $bouton-danger: #900;
+$bouton-ajouter: rgb(30, 100, 150);
 $table-accent: #005c4a;
 
 html {
@@ -112,7 +113,7 @@ body {
       }
     }
   }
-
+  .btn-ajouter,
   .btn-modifier, 
   .btn-supprimer {
     border: thin solid $mono-claire;
@@ -129,5 +130,9 @@ body {
 
   .btn-supprimer {
     background-color: $bouton-danger;
+  }
+
+  .btn-ajouter {
+    background-color: $bouton-ajouter;
   }
 }

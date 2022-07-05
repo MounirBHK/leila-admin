@@ -21,11 +21,11 @@ document.querySelectorAll('.navigation-principale li').forEach(function(item, po
 
 // Remarquez l'utilisation de async/await au lieu de then() pour gérer les promesses
 async function obtenirEnregistrements() {
-    let reponse = await fetch('http://127.0.0.10:9000/index.php/' + nomCollection);
+    let reponse = await fetch('http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + nomCollection);
     // Traiter la réponse...
     let reponseJson = await reponse.json();
     // console.log('Nom de la collection : ', nomCollection);
-    console.log('Collection (JSON) : ', reponseJson);
+    // console.log('Collection (JSON) : ', reponseJson);
     afficherCollection(reponseJson);
 }
 
@@ -86,7 +86,7 @@ async function modifierElement(rangee) {
     const donneesJson = rangeeEnJson(rangee);
     //console.log("Données de la rangée en JSON", donneesJson);
     let reponse = await fetch(
-        'http://127.0.0.10:9000/index.php/' + nomCollection + '/' + rangee.dataset.id,
+        'http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + nomCollection + '/' + rangee.dataset.id,
         {
             method: 'PUT',
             body: donneesJson
@@ -97,8 +97,8 @@ async function modifierElement(rangee) {
 
 async function supprimerElement(rangee) {
     let reponse = await fetch(
-            'http://127.0.0.10:9000/index.php/' + nomCollection + '/' + rangee.dataset.id,
-            { method: 'DELETE' }
+        'http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + nomCollection + '/' + rangee.dataset.id,
+        { method: 'DELETE' }
     );
     let reponseJson = await reponse.json();
     // Supprimer la rangée localement (DOM)

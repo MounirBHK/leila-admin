@@ -83,6 +83,7 @@ body table th input, body table td input {
   background-color: inherit;
   border: none;
 }
+body .btn-ajouter,
 body .btn-modifier,
 body .btn-supprimer {
   border: thin solid #aaa;
@@ -97,4 +98,7 @@ body .btn-modifier {
 }
 body .btn-supprimer {
   background-color: #900;
+}
+.btn-ajouter {
+  background-color: rgb(45, 68, 84);
 }

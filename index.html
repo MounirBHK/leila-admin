@@ -6,8 +6,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;900&family=Roboto:wght@400;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="ressources/css/leila-admin.css">
     <link rel="icon" type="image/png" href="ressources/images/favicon.png" />
+    
+    <!-- scripts -->
+    <script type="module" src="ressources/js/main.js" defer></script>
+
     <title>Admin - Restaurant Leila</title>
 </head>
 <body>
@@ -29,10 +34,17 @@
                 <th>id</th>
                 <th>nom</th>
                 <th>type</th>
-                <th class="action"></th>
+                <th>
+                    <button class="btn-ajouter">Ajouter</button>
+                </th>
+                <!--
+                    <th class="action">Actions</th>
+                -->
             </tr>
+            
         </thead>
         <tbody>
+            <!--
             <tr>
                 <td>1</td>
                 <td><input type="text" name="cat_nom" value="Entrées"></td>
@@ -51,9 +63,11 @@
                     <button class="btn-supprimer">supprimer</button>
                 </td>
             </tr>
+            -->
         </tbody>
     </table>
-
-    <script src="ressources/js/leila-admin.js"></script>
+    <!--
+        <script src="ressources/js/leila-admin.js"></script>
+    -->
 </body>
 </html>
