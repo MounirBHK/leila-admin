@@ -18,6 +18,8 @@ export default class Actions {
         // console.log(dataCollection);
         // console.log('tabCats : ', tabCats);
 
+        // console.log(this.nomCollection);
+
         document.querySelector('.liste-enregistrements caption code').innerText = this.nomCollection;
 
         let rangeeTHead = document.querySelector('.liste-enregistrements thead tr');
@@ -56,21 +58,23 @@ export default class Actions {
         tBody.appendChild(rangeeAjoutTBody);
 
 
+        let pr;
         for (const article of dataCollection) {
             // console.log(article);
                         
             rangeeTBody = document.createElement('tr');
             rangeeTBody.dataset.id = article.cat_id || article.pla_id || article.vin_id;
             let td = null;
-            let pr = '';
+            pr = '';
+
             for(const prop in article) {
 
                 if (!prop.match(/cat_nom/) && !prop.match(/cat_type/) || (this.nomCollection == 'categories')) 
                 {
                     td = document.createElement('td');
-                    // pr += 'test'; 
                     if ( prop.match(/_id$/)) {
                         td.innerText = article[prop];
+                        pr += `<td> - </td>`;
                     }
                     else 
                         if (prop.match(/cat_id_ce$/)){
@@ -82,23 +86,32 @@ export default class Actions {
                             <td>
                                 <select name="${prop}" id="${prop}">
                             `;
+                            pr += domString;
                         
                             for (let elt of tabCats ){
 
-                                if ( elt.cat_nom == article.cat_nom )
-                                    domString = domString+ `<option value="${elt.cat_id}" selected>${elt.cat_nom}</option>`
+                                if ( elt.cat_nom == article.cat_nom ){
+                                    domString = domString+ `<option value="${elt.cat_id}" selected>${elt.cat_nom}</option>`;
+                                    pr += `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                }
+
                                 else
-                                    if (elt.cat_type.toUpperCase().match(/^VIN$/) &&  article.cat_type.toUpperCase().match(/^VIN$/))
-                                        domString = domString+ `<option value="${elt.cat_id}">${elt.cat_nom}</option>`
+                                    if (elt.cat_type.toUpperCase().match(/^VIN$/) &&  article.cat_type.toUpperCase().match(/^VIN$/)){
+                                        domString = domString+ `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                        pr += `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                    }
                                     else
-                                        if (!elt.cat_type.toUpperCase().match(/^VIN$/) &&  !article.cat_type.toUpperCase().match(/^VIN$/))
-                                            domString = domString+ `<option value="${elt.cat_id}">${elt.cat_nom}</option>`
+                                        if (!elt.cat_type.toUpperCase().match(/^VIN$/) &&  !article.cat_type.toUpperCase().match(/^VIN$/)){
+                                            domString = domString+ `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                            pr += `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                        }
                             }
                             domString = domString+ `
                                 </select>
                             </td>
                             `;
 
+                            pr += `</select></td>`;
                             td.innerHTML = domString;
                             
                             
@@ -115,23 +128,39 @@ export default class Actions {
                                 <td>
                                     <select name="${prop}" id="${prop}">
                                 `;
-                            
+                                pr += domString;
+
                                 for (let eltType of tabCatsType ){
 
-                                    if ( eltType == article.cat_type )
-                                        domString = domString+ `<option value="${eltType}" selected>${eltType}</option>`
-                                    else
-                                        domString = domString+ `<option value="${eltType}">${eltType}</option>`
+                                    if ( eltType == article.cat_type ){
+                                        domString = domString+ `<option value="${eltType}" selected>${eltType}</option>`;
+                                        pr += `<option value="${eltType}">${eltType}</option>`;
+                                    }
+                                    else{
+                                        domString = domString+ `<option value="${eltType}">${eltType}</option>`;
+                                        pr += `<option value="${eltType}">${eltType}</option>`;
+                                    }
                                 }
                                 domString = domString+ `
                                     </select>
                                 </td>
                                 `;
-
+                                pr += `</select></td>`;
                                 td.innerHTML = domString;
                             }
-                            else
+                            else{
                                 td.innerHTML = `<input type="text" name="${prop}" value="${article[prop]}">`;
+                                // if((this.nomCollection == 'categories')){
+                                //     pr +=`<td><select name="${prop}" id="${prop}">`
+                                //     for (let elt of tabCats ){
+                                //         pr += `<option value="${elt.cat_id}">${elt.cat_nom}</option>`;
+                                //     }
+                                //     pr += `</select></td>`;
+                                // }
+                                // else
+                                    pr += `<td><input type="text" name="${prop}" placeholder="${prop}"></td>`;
+                                    
+                            }
                         }
                     rangeeTBody.appendChild(td);
                     
@@ -144,10 +173,8 @@ export default class Actions {
             tBody.appendChild(rangeeTBody);
 
         }
-
-        // document.querySelector('.premiere').innerHTML="ajouter";
-
-        
+        pr += `<td><button class="btn btn-ajouter">Ajouter</button></td>`
+        document.querySelector('.premiere').innerHTML = pr;
         
     }
 
@@ -250,9 +277,22 @@ export default class Actions {
             rangee.remove();
         }
     }
+   
 
+    async ajouterElement(rangee) {
+        const donneesJson = this.rangeeEnJson(rangee);
+        // console.log("Données de la rangée en JSON", donneesJson);
 
-    async AjouterElement(rangee) {
+        let reponse = await fetch(
+            'http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + this.nomCollection + '/' + rangee.dataset.id,
+            {
+                method: 'POST',
+                body: donneesJson
+            }
+        );
+        let reponseJson = await reponse.json();
+
+        // console.log("Données de la rangée en JSON", reponseJson);
         
     }
 
