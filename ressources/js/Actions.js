@@ -2,13 +2,6 @@
 
 export default class Actions {
 
-    // constructor(){
-    //     let reponseJson = this.recupererCategories();
-    //     let reponse = JSON.parse(reponseJson);
-    //     console.log(reponse);
-    // }
-    
-
     async obtenirEnregistrements(tabCats) {
         // console.log('this.nomCollection :', this.nomCollection);
         let reponse = await fetch('http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + this.nomCollection);
@@ -17,23 +10,20 @@ export default class Actions {
         // console.log('Nom de la collection : ', collection);
         // console.log('Collection (JSON) : ', reponseJson);
 
-        // console.log('reponseJson ',reponseJson);
         this.afficherCollection(reponseJson, tabCats);
+        this.activerBouttons();
     }
 
     afficherCollection(dataCollection, tabCats) {
         // console.log(dataCollection);
-
         // console.log('tabCats : ', tabCats);
-
-        // Récupération des catégories
-        // const tabCat = ['Desserts', 'Entrées', 'Fromages', 'Poissons', 'Viandes', 'Vins blancs', 'Vins mousseux', 'Vins rouges'];
 
         document.querySelector('.liste-enregistrements caption code').innerText = this.nomCollection;
 
         let rangeeTHead = document.querySelector('.liste-enregistrements thead tr');
-        let tBody = document.querySelector('.liste-enregistrements tbody');
         rangeeTHead.innerHTML = '';
+
+        let tBody = document.querySelector('.liste-enregistrements tbody');
         tBody.innerHTML = '';
         
         // Générer l'entête de la table à partir des propriétés d'un enregistrement
@@ -43,37 +33,42 @@ export default class Actions {
                 th = document.createElement('th');
 
                 if (prop.match(/cat_id_ce$/))
-                    th.innerText = 'categorie';
-                else
-                    th.innerText = prop.slice(4);
+                    th.innerText = 'Categorie';
+                else{
+                    let titre = prop.slice(4);
+                    th.innerText = titre.charAt(0).toUpperCase()+titre.slice(1,titre.length);
+                }
 
                 rangeeTHead.appendChild(th);
             }
         }
         th = document.createElement('th');
-        th.innerHTML ='<button class="btn-ajouter">Ajouter</button>';
+        th.innerHTML ='<th class="action">Actions</th>';
         rangeeTHead.appendChild(th);
-
-        // th = document.createElement('th');
-        // th.classList.add('actio);n'
-        // rangeeTHead.appendChild(th);
     
         // Générer le corps de la table à partir des données de la collection
         let rangeeTBody = null;
+
+        // préparation de la premiere ligne d'ajout
+        let rangeeAjoutTBody = document.createElement('tr');
+        rangeeAjoutTBody.classList.add('premiere');
+        // rangeeAjoutTBody.innerHTML ='<button class="btn-ajouter">Ajouter</button>';
+        tBody.appendChild(rangeeAjoutTBody);
+
+
         for (const article of dataCollection) {
             // console.log(article);
                         
             rangeeTBody = document.createElement('tr');
             rangeeTBody.dataset.id = article.cat_id || article.pla_id || article.vin_id;
             let td = null;
+            let pr = '';
             for(const prop in article) {
-                
-                // console.log('Article : ', article);
 
                 if (!prop.match(/cat_nom/) && !prop.match(/cat_type/) || (this.nomCollection == 'categories')) 
                 {
                     td = document.createElement('td');
-
+                    // pr += 'test'; 
                     if ( prop.match(/_id$/)) {
                         td.innerText = article[prop];
                     }
@@ -124,9 +119,9 @@ export default class Actions {
                                 for (let eltType of tabCatsType ){
 
                                     if ( eltType == article.cat_type )
-                                        domString = domString+ `<option value="${article.cat_id}" selected>${eltType}</option>`
+                                        domString = domString+ `<option value="${eltType}" selected>${eltType}</option>`
                                     else
-                                        domString = domString+ `<option value="${article.cat_id}">${eltType}</option>`
+                                        domString = domString+ `<option value="${eltType}">${eltType}</option>`
                                 }
                                 domString = domString+ `
                                     </select>
@@ -143,38 +138,71 @@ export default class Actions {
                 }
             }
             td = document.createElement('td');
-            td.innerHTML = '<button class="btn-modifier">modifier</button><button class="btn-supprimer">supprimer</button>';
+            td.innerHTML = '<button class="btn btn-modifier">modifier</button><button class="btn btn-supprimer">supprimer</button>';
             td.classList.add('action');
             rangeeTBody.appendChild(td);
             tBody.appendChild(rangeeTBody);
+
         }
 
-        this.activerBouttons();
+        // document.querySelector('.premiere').innerHTML="ajouter";
+
+        
         
     }
 
+
     activerBouttons(){
 
-        document.querySelector('.liste-enregistrements').addEventListener('click', function(evt) {
-            
-            const rangee = evt.target.closest('tr');
-            // console.log(rangee);
+        let lignes = document.querySelectorAll('.btn');
+        let rangee; 
 
-            if(evt.target && evt.target.classList.contains('btn-modifier')) {
-                console.log(rangee);
-                this.modifierElement(rangee);
+        for (let ligne of lignes){
+            if (ligne.classList.contains('btn-modifier')){
+                ligne.addEventListener('click',(evt)=>{
+                    rangee = evt.target.closest('tr');
+                    this.modifierElement(rangee);
+                });
             }
-            else if(evt.target && evt.target.classList.contains('btn-supprimer')) {
-                this.supprimerElement(rangee);
-                // console.log(`supprimerElement(${rangee})`);
-            }
-            else if(evt.target && evt.target.classList.contains('btn-ajouter')) {
-                // this.ajouterElement(rangee);
-                // console.log(`ajouterElement(${rangee})`);
-            }
-
-        }.bind(this));
+            else
+                if (ligne.classList.contains('btn-supprimer')){
+                    ligne.addEventListener('click',(evt)=>{
+                        rangee = evt.target.closest('tr');
+                        this.supprimerElement(rangee);
+                    });
+                }
+                else
+                    if (ligne.classList.contains('btn-ajouter')){
+                        ligne.addEventListener('click',(evt)=>{
+                            rangee = evt.target.closest('tr');
+                            this.ajouterElement(rangee);
+                        });
+                    }
+        }
     }
+
+    // activerBouttons(){
+
+    //     document.querySelector('.liste-enregistrements').addEventListener('click', function(evt) {
+            
+    //         const rangee = evt.target.closest('tr');
+    //         // console.log(rangee);
+
+    //         if(evt.target && evt.target.classList.contains('btn-modifier')) {
+    //             // console.log(rangee);
+    //             this.modifierElement(rangee);
+    //         }
+    //         else if(evt.target && evt.target.classList.contains('btn-supprimer')) {
+    //             this.supprimerElement(rangee);
+    //             // console.log(`supprimerElement(${rangee})`);
+    //         }
+    //         else if(evt.target && evt.target.classList.contains('btn-ajouter')) {
+    //             // this.ajouterElement(rangee);
+    //             // console.log(`ajouterElement(${rangee})`);
+    //         }
+
+    //     }.bind(this));
+    // }
 
 
 
@@ -196,7 +224,7 @@ export default class Actions {
 
     async modifierElement(rangee) {
         const donneesJson = this.rangeeEnJson(rangee);
-        console.log("Données de la rangée en JSON", donneesJson);
+        // console.log("Données de la rangée en JSON", donneesJson);
 
         let reponse = await fetch(
             'http://localhost/session4/TECHNIQUES-APW/api-web-rest/index.php/' + this.nomCollection + '/' + rangee.dataset.id,
